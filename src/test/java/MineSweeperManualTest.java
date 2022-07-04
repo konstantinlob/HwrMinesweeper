@@ -66,12 +66,15 @@ class MineSweeperManualTest {
             builder.append(i);
         }
         builder.append('\n');
+
+
         for (int i = 0; i < cells.length; i++) {
             boolean newRow = i % FIELD_SIZE == 0;
             if (newRow) {
                 builder.append("\n");
+                //builder.append("i")
                 builder.append("  ");
-               //hier reihenzahlen noch rein
+
             }
             Cell cell = cells[i];
             boolean isCovered = cell.isCovered();

@@ -1,5 +1,3 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
@@ -40,7 +38,18 @@ class MineSweeperManualTest {
         String string = buildConsoleOutput();
 
         out.println(string);
-        command = input.next();
+        while(!commandvalidizer()) {
+            command = input.next();
+            commandvalidizer();
+            commandprocesser(command);
+        }
+    }
+
+    private boolean commandvalidizer() {
+        return false;
+    }
+
+    private void commandprocesser(String command) {
     }
 
     private void markCellsAsBomb(Position[] positions) {

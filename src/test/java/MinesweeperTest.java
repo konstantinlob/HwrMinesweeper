@@ -106,17 +106,6 @@ class MinesweeperTest {
             cell.markUncovered();
             assertThat(cell.isUncovered()).isTrue();
         }
-
-        @Test
-        void IsUncovered_pluralUncoveredCell_(){
-            Field field = new Field(10);
-            Position cellPosition = new Position(5, 5);
-            Cell cell = field.getCellAt(cellPosition);
-            cell.markCovered();
-            cell.markUncovered();
-
-            assertThat(cell.isUncovered()).isTrue();
-        }
     }
 
     @Nested

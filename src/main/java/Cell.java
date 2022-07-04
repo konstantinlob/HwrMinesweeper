@@ -41,7 +41,7 @@ public class Cell {
 
         for ( Cell c : getNonDiagonalNeighbours())
             if (!c.isBomb() && !c.isUncovered())
-                c.markUncovered();
+                c.markUncovered(); //test
     }
 
     public void markBomb() {

@@ -33,11 +33,17 @@ public class Cell {
         this.flagged = false;
     }
 
-    public void markUncovered() {
-        if(this.isBomb())
-            System.out.println("BOOM");
+    public boolean checkUncover(){
+        if(!this.isBomb())
+            return true;
         else
-            this.covered = false;
+            System.out.println("BOOM");
+            return false;
+    }
+
+
+    public void markUncovered() {
+    this.covered = false;
 
         for ( Cell c : getNonDiagonalNeighbours())
             if (!c.isBomb() && !c.isUncovered())

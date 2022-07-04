@@ -101,7 +101,7 @@ class MineSweeperManualTest {
         for (Position position : positions) {
             Cell cell = field.getCellAt(position);
             cells[index] = cell;
-            cell.markCovered();
+            //cell.markCovered();
             index++;
         }
     }

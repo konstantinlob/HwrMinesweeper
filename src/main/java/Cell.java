@@ -47,7 +47,7 @@ public class Cell {
 
         for ( Cell c : getNonDiagonalNeighbours())
             if (!c.isBomb() && !c.isUncovered())
-                c.markUncovered(); //test
+                c.markUncovered(); //TODO:show benni
     }
 
     public void markBomb() {
@@ -85,7 +85,4 @@ public class Cell {
     public boolean isUnflagged() {
         return !this.flagged;
     }
-
-
-
 }

@@ -1,3 +1,4 @@
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
@@ -52,7 +53,18 @@ class MineSweeperManualTest {
         }
     }
 
-    private boolean commandvalidizer() {
+    private boolean commandvalidizer(){ //Damit das Programm nicht faild und wir testen können.
+        return false;
+    }
+
+    private boolean commandvalidizer(String command) {              //Methode mit input String Variable
+        if(command.matches("\\d*\s\\d*")){                    //Command muss dem Muster entsprechen damit wir dann splitten können an der Stelle
+            String[] splitted = command.split(" ");           //splittet an dem Leerzeichen
+            System.out.println("Nicht im richtigen Format eingegeben!!! Das richtige Format ist X Y. Probiere es noch mal!");
+            if(splitted[0].length() <= String.valueOf(FIELD_SIZE-1).length() && splitted[1].length() <= String.valueOf(FIELD_SIZE-1).length()){
+                return true;
+            }
+        }
         return false;
     }
 

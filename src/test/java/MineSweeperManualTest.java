@@ -29,7 +29,14 @@ class MineSweeperManualTest {
     }
 
     private boolean checkwin() {
-        return false;
+        for(Cell c : cells){
+            if(!c.isBomb()){
+                if(c.isCovered()){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private void gameRound() {
@@ -72,8 +79,7 @@ class MineSweeperManualTest {
             boolean newRow = i % FIELD_SIZE == 0;
             if (newRow) {
                 builder.append("\n");
-                //builder.append("i")
-                builder.append("  ");
+                builder.append(i/FIELD_SIZE + " ");
 
             }
             Cell cell = cells[i];
@@ -144,13 +150,13 @@ class MineSweeperManualTest {
             out.println(string);
             Thread.sleep(3000);
 
-            /*
-            if(checkWin())
-            {
+/*
+            if(checkWin()) {
                 displayHidden();
                 System.out.println("\n================You WON!!!================");
                 break;
-            } */
+            }
+ */
         }
     }
 }

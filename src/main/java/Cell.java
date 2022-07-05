@@ -45,9 +45,11 @@ public class Cell {
     public void markUncovered() {
     this.covered = false;
 
-        for ( Cell c : getNonDiagonalNeighbours())
-            if (!c.isBomb() && !c.isUncovered())
+        for ( Cell c : getNonDiagonalNeighbours()) {
+            if (!c.isBomb() && c.isCovered()) {
                 c.markUncovered(); //TODO:show benni
+            }
+        }
     }
 
     public void markBomb() {

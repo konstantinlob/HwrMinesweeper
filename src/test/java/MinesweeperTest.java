@@ -1,6 +1,5 @@
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -8,29 +7,28 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MinesweeperTest {
-    private int FIELD_SIZE;
+    private int fieldsize;
     private Field field;
     private Position[] positions;
     private Cell[] cells;
     private Command command;
 
-
     @Nested
     class CommandTests{
         @Test
         void validCommand_commandValidizer(){
-            FIELD_SIZE = 10;
+            fieldsize = 10;
             command = new Command("8 6");
-            boolean boo = command.validize(FIELD_SIZE);
+            boolean boo = command.validize(fieldsize);
 
             Assertions.assertThat(boo).isTrue();
         }
 
         @Test
         void invalidCommand_commandValidizer(){
-            FIELD_SIZE = 10;
+            fieldsize = 10;
             command = new Command("86");
-            boolean boo = command.validize(FIELD_SIZE);
+            boolean boo = command.validize(fieldsize);
 
             Assertions.assertThat(boo).isFalse();
         }
@@ -42,9 +40,10 @@ class MinesweeperTest {
             Cell cell = field.getCellAt(cellPosition);
             cell.markCovered();
             command = new Command("8 6");
-            command.process(field);
+            command.process();
 
-            Assertions.assertThat(cell.isCovered()).isFalse();
+            Assertions.assertThat(command.getX()).isEqualTo(8);
+            Assertions.assertThat(command.getY()).isEqualTo(6);
         }
     }
 
@@ -257,6 +256,12 @@ class MinesweeperTest {
 
             assertThat(cell.bombCount()).isEqualTo(3);
         }
+
+        @Test
+         @Disabled
+        void randomBombPlacer(){
+            //TODO: make the random bomb tester
+        }
     }
 
     @Nested
@@ -286,7 +291,6 @@ class MinesweeperTest {
 
         @Test
         void IsNextToPosition_PositionIsntNextToposition (){
-
             Position centerCell = new Position(1, 1);
             Position neighbour = new Position(3, 3);
 
@@ -304,7 +308,7 @@ class MinesweeperTest {
     }
 
     private void initializeCells() {
-        cells = new Cell[FIELD_SIZE * FIELD_SIZE];
+        cells = new Cell[fieldsize * fieldsize];
         int index = 0;
         for (Position position : positions) {
             Cell cell = field.getCellAt(position);
@@ -315,10 +319,10 @@ class MinesweeperTest {
     }
 
     private void initializePositions() {
-        positions = new Position[FIELD_SIZE * FIELD_SIZE];
+        positions = new Position[fieldsize * fieldsize];
         int index = 0;
-        for (int x = 0; x < FIELD_SIZE; x++) {
-            for (int y = 0; y < FIELD_SIZE; y++) {
+        for (int x = 0; x < fieldsize; x++) {
+            for (int y = 0; y < fieldsize; y++) {
                 Position p = new Position(x, y);
                 positions[index] = p;
                 index++;

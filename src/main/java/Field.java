@@ -5,6 +5,7 @@ public class Field {
     private final Map<Position, Cell> playingField;
 
     private Position[] positions;
+    private int size;
 
     public Field(int size) {
         this.playingField = createField(size);

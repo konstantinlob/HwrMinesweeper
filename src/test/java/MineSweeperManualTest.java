@@ -12,6 +12,7 @@ class MineSweeperManualTest {
     private Field field;
     private Position[] positions;
     private Cell[] cells;
+    private Command command;
     
     @Test 
     void PlayTest(){
@@ -41,16 +42,13 @@ class MineSweeperManualTest {
     }
 
     private void gameRound() {
-        String command; // Can be local.
+        String com; // Can be local.
         Scanner input = new Scanner(System.in);
-        String string = buildConsoleOutput();
-
-        out.println(string);
-        while(!commandvalidizer()) {
-            command = input.next();
-            commandvalidizer();
-            commandprocesser(command);
+        while(!command.validize(FIELD_SIZE)) {
+            com = input.next();
+            command = new Command(com);
         }
+        command.process(field);
     }
 
     private boolean commandvalidizer(){ //Damit das Programm nicht faild und wir testen können.
@@ -96,14 +94,10 @@ class MineSweeperManualTest {
             }
             Cell cell = cells[i];
             boolean isCovered = cell.isCovered();
-            boolean isFlagged = cell.isFlagged();
+            //boolean isFlagged = cell.isFlagged();
 
             if (isCovered){
-                if(!isFlagged) {
-                    builder.append('C'); //Grey Field Unicode U+2800
-                } else {
-                    builder.append('F'/*"U+1F6A9"*/); //flag unicode
-                }
+                    builder.append('?'); //Grey Field Unicode U+2800
             }  else {
                 if (cell.isBomb()){
                     builder.append("X");
@@ -146,6 +140,7 @@ class MineSweeperManualTest {
         //game = new Game(field);
         initializePositions();
         initializeCells();
+        field.placerandombombs(FIELD_SIZE);
         markCellsAsBomb(new Position[]{
                 new Position(3, 0),
                 new Position(3, 2),

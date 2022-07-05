@@ -6,7 +6,7 @@ public class Cell {
     private final Position position;
     private final Field field;
     private boolean bomb;
-    private boolean flagged;
+    //private boolean flagged;
 
     public Cell(Position position, Field field) {
         this.position = position;
@@ -24,7 +24,7 @@ public class Cell {
     public void markCovered() {
         this.covered = true;
     }
-
+/*
     public void markFlagged() {
         this.flagged = true;
     }
@@ -32,7 +32,7 @@ public class Cell {
     public void markUnflagged() {
         this.flagged = false;
     }
-
+*/
     public boolean checkUncover(){
         if(!this.isBomb())
             return true;
@@ -77,7 +77,7 @@ public class Cell {
     }
 
     public boolean isUncovered() {return !this.covered;}
-
+/*
     public boolean isFlagged() {
         return this.flagged;
     }
@@ -85,4 +85,5 @@ public class Cell {
     public boolean isUnflagged() {
         return !this.flagged;
     }
+ */
 }

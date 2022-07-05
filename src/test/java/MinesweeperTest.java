@@ -1,4 +1,5 @@
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -11,7 +12,41 @@ class MinesweeperTest {
     private Field field;
     private Position[] positions;
     private Cell[] cells;
+    private Command command;
 
+
+    @Nested
+    class CommandTests{
+        @Test
+        void validCommand_commandValidizer(){
+            FIELD_SIZE = 10;
+            command = new Command("8 6");
+            boolean boo = command.validize(FIELD_SIZE);
+
+            Assertions.assertThat(boo).isTrue();
+        }
+
+        @Test
+        void invalidCommand_commandValidizer(){
+            FIELD_SIZE = 10;
+            command = new Command("86");
+            boolean boo = command.validize(FIELD_SIZE);
+
+            Assertions.assertThat(boo).isFalse();
+        }
+
+        @Test
+        void validCommand_proccessCommand(){
+            Field field = new Field(10);
+            Position cellPosition = new Position(8,6);
+            Cell cell = field.getCellAt(cellPosition);
+            cell.markCovered();
+            command = new Command("8 6");
+            command.process(field);
+
+            Assertions.assertThat(cell.isCovered()).isFalse();
+        }
+    }
 
     @Nested
     class NeigbourTests {
@@ -129,7 +164,7 @@ class MinesweeperTest {
         }
     }
 
-    @Nested
+    /*@Nested
     class FlagTests{
 
         @Test
@@ -151,6 +186,7 @@ class MinesweeperTest {
             assertThat(cell.isUnflagged()).isTrue();
         }
     }
+    */
 
     @Nested
     class Bombtests{

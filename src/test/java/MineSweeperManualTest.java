@@ -29,12 +29,12 @@ class MineSweeperManualTest {
         do {
             gameRound();
         }
-        while(!referee.checkWin(field) || !referee.checkLose);
+        while(!referee.checkWin(field) &&  !referee.checkLose(field));
 
         if(referee.checkWin(field)){
             out.println("\n\n ===== WELL DONE YOU WON!!! =====\n");
         }
-        else {
+        if(referee.checkLose(field)){
             out.println("\n\n ===== you lost loser =====\n");
         }
     }
@@ -64,14 +64,15 @@ class MineSweeperManualTest {
         Scanner input = new Scanner(System.in);
 
         do {
-            com = input.next();
+            com = input.nextLine();
+        out.println(com);
             command = new Command(com);
         } while(!command.validize(fieldsize));
 
         command.process();
         int commandx = command.getX();
-        int commandy = command.getX();
-        Position cellPosition = new Position(commandx,commandy);
+        int commandy = command.getY();
+        Position cellPosition = new Position(commandy,commandx);
         Cell cell = field.getCellAt(cellPosition);
         cell.markUncovered();
 
@@ -85,15 +86,13 @@ class MineSweeperManualTest {
         for (int i = 0; i < fieldsize; i++){
             builder.append(i);
         }
-        builder.append('\n');
-
-
+        //builder.append('\n');
         for (int i = 0; i < cells.length; i++) {
-            boolean newRow = i % fieldsize == 0;
+                boolean newRow = i % fieldsize == 0;
             if (newRow) {
                 builder.append("\n");
-                builder.append(i/fieldsize + " ");
-
+                builder.append((i / fieldsize));
+                builder.append(" ");
             }
             Cell cell = cells[i];
             boolean isCovered = cell.isCovered();
@@ -119,7 +118,7 @@ class MineSweeperManualTest {
         for (Position position : positions) {
             Cell cell = field.getCellAt(position);
             cells[index] = cell;
-            //cell.markCovered();
+            cell.markCovered();
             index++;
         }
     }

@@ -47,7 +47,7 @@ public class Cell {
 
         for ( Cell c : getNonDiagonalNeighbours()) {
             if (!c.isBomb() && c.isCovered()) {
-                c.markUncovered(); //TODO:show benni
+                c.markUncovered();
             }
         }
     }

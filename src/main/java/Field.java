@@ -30,7 +30,7 @@ public class Field {
             for (int y = 0; y < size; y++) {
                 Random rn = new Random();
                 int answer = rn.nextInt(10) + 1;
-                if(answer == 5 || answer == 2){
+                if(answer == 5 || answer == 2 || answer == 3 ){
                 Position cellPosition = new Position(x,y);
                 Cell cell = getCellAt(cellPosition);
                 cell.markBomb();

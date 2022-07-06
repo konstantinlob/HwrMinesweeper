@@ -24,9 +24,7 @@ public class Command {
     public boolean validize(int fieldsize) {
         if(command.matches("\\d*\s\\d*")){                    //Command muss dem Muster entsprechen damit wir dann splitten können an der Stelle
             String[] splitted = command.split(" ");           //splittet an dem Leerzeichen
-            System.out.println("Richtiges Format");
             if(splitted[0].length() <= String.valueOf(fieldsize-1).length() && splitted[1].length() <= String.valueOf(fieldsize-1).length()){
-                System.out.println("Returning true");
                 return true;
             } else {
                 System.out.println("Out of Bounds!");

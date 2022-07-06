@@ -27,7 +27,7 @@ public class Referee {
         //für alle cells des feldes muss gelten : es darf nicht nicht bombe sein und covered (!cell.isBomb && cell.isCovered) --> false
         Set<Cell> cells = field.getAllCells();
         for (Cell cell : cells) {
-            if(!cell.isBomb()==true && cell.isCovered() == true){
+            if(!cell.isBomb()==true && cell.isCovered() == true  || cell.isBomb()==true && cell.isUncovered() == true){
                 return false;
             }
         }

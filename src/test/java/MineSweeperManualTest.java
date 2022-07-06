@@ -1,4 +1,3 @@
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
@@ -7,8 +6,6 @@ import static java.lang.System.out;
 
 class MineSweeperManualTest {
 
-
-    //private Game game;
     private Field field;
     private Position[] positions;
     private Cell[] cells;
@@ -39,19 +36,8 @@ class MineSweeperManualTest {
         }
     }
 
-    private boolean checkwin() {
-        for(Cell c : cells){
-            if(!c.isBomb()){
-                if(c.isCovered()){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
     private void gameRound()  {
-
         try {
             String string = buildConsoleOutput();
             out.println(string);
@@ -60,7 +46,7 @@ class MineSweeperManualTest {
             i.printStackTrace();
         }
 
-        String com; // Can be local.
+        String com;
         Scanner input = new Scanner(System.in);
 
         do {
@@ -70,14 +56,10 @@ class MineSweeperManualTest {
         } while(!command.validize(fieldsize));
 
         command.process();
-        int commandx = command.getX();
-        int commandy = command.getY();
-        Position cellPosition = new Position(commandy,commandx);
+
+        Position cellPosition = new Position(command.getY(),command.getX());
         Cell cell = field.getCellAt(cellPosition);
         cell.markUncovered();
-
-
-
     }
 
     private String buildConsoleOutput() {
@@ -96,7 +78,6 @@ class MineSweeperManualTest {
             }
             Cell cell = cells[i];
             boolean isCovered = cell.isCovered();
-            //boolean isFlagged = cell.isFlagged();
 
             if (isCovered){
                     builder.append('?'); //Grey Field Unicode U+2800
@@ -149,14 +130,6 @@ class MineSweeperManualTest {
             //game.proceed();
             out.println(string);
             Thread.sleep(3000);
-
-/*
-            if(checkWin()) {
-                displayHidden();
-                System.out.println("\n================You WON!!!================");
-                break;
-            }
- */
         }
     }
 }

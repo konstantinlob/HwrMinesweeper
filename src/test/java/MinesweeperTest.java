@@ -12,6 +12,7 @@ class MinesweeperTest {
     private Position[] positions;
     private Cell[] cells;
     private Command command;
+    private Referee referee;
 
     @Nested
     class CommandTests{
@@ -44,6 +45,79 @@ class MinesweeperTest {
 
             Assertions.assertThat(command.getX()).isEqualTo(8);
             Assertions.assertThat(command.getY()).isEqualTo(6);
+        }
+    }
+
+    @Nested
+    class RefereeTests{
+        @Test
+        void winningField_checkWin(){
+            fieldsize = 4;
+            Field gameField = new Field(fieldsize);
+            Referee referee = new Referee(gameField);
+            Position bombPosition = new Position(2,2);
+            Cell bombCell = gameField.getCellAt(bombPosition);
+            bombCell.markBomb();
+            bombCell.markCovered();
+            boolean gameWin = referee.checkWin(gameField);
+            Assertions.assertThat(gameWin).isTrue();
+        }
+        @Test
+        void nonWinningField_checkWin(){
+            fieldsize = 4;
+            Field gameField = new Field(fieldsize);
+            Referee referee = new Referee(gameField);
+            Position bombPosition = new Position(2,2);
+            Position nonBombPosition = new Position(3, 2);
+            Cell bombCell = gameField.getCellAt(bombPosition);
+            Cell nonBombCell = gameField.getCellAt(nonBombPosition);
+            bombCell.markBomb();
+            bombCell.markCovered();
+            nonBombCell.markCovered();
+            boolean gameWin = referee.checkWin(gameField);
+
+            Assertions.assertThat(gameWin).isFalse();
+        }
+
+        @Test
+        void nonWinningField_withUncoveredBomb_checkWin(){ //sonst kann ein field gewinnen wenn es nur eine uncovered bomb hat und nichts anderes
+            fieldsize = 4;
+            Field gameField = new Field(fieldsize);
+            Referee referee = new Referee(gameField);
+            Position bombPosition = new Position(2,2);
+            Cell bombCell = gameField.getCellAt(bombPosition);
+            bombCell.markBomb();
+
+            boolean gameWin = referee.checkWin(gameField);
+
+            Assertions.assertThat(gameWin).isFalse();
+        }
+
+        @Test
+        void losingField_checkLose(){
+            fieldsize = 4;
+            Field gameField = new Field(fieldsize);
+            Referee referee = new Referee(gameField);
+            Position bombPosition = new Position(2,2);
+            Cell bombCell = gameField.getCellAt(bombPosition);
+            bombCell.markBomb();
+            boolean gameLose = referee.checkLose(gameField);
+
+            Assertions.assertThat(gameLose).isTrue();
+        }
+
+        @Test
+        void nonLosingField_checkLose(){
+            fieldsize = 4;
+            Field gameField = new Field(fieldsize);
+            Referee referee = new Referee(gameField);
+            Position bombPosition = new Position(2,2);
+            Cell bombCell = gameField.getCellAt(bombPosition);
+            bombCell.markBomb();
+            bombCell.markCovered();
+            boolean gamelose = referee.checkLose(gameField);
+
+            Assertions.assertThat(gamelose).isFalse();
         }
     }
 
@@ -161,53 +235,48 @@ class MinesweeperTest {
 
             assertThat(cell.checkUncover()).isTrue();
         }
-    }
-
-    /*@Nested
-    class FlagTests{
 
         @Test
-        void IsFlagged_singleFlaggedCell(){
-            Field field = new Field(10);
-            Position cellPosition = new Position(5, 5);
-            Cell cell = field.getCellAt(cellPosition);
-            cell.markFlagged();
-            assertThat(cell.isFlagged()).isTrue();
+        void pluralCell_markUncover_diagonalUncoverShouldNotHappen(){
+            Field gameField = new Field(2);
+            Position startPosition = new Position(1, 1);
+            Position cornerPosition = new Position(0,0);
+            Cell startingCell = gameField.getCellAt(startPosition);
+            Cell cornerCell = gameField.getCellAt(cornerPosition);
+
+            startingCell.markCovered();
+            cornerCell.markCovered();
+
+            startingCell.markUncovered();
+
+            assertThat(startingCell.isUncovered()).isTrue();
+            assertThat(cornerCell.isUncovered()).isFalse();
         }
 
         @Test
-        void IsUnflagged_singleFlaggedCell(){
-            Field field = new Field(10);
-            Position cellPosition = new Position(5, 5);
-            Cell cell = field.getCellAt(cellPosition);
-            cell.markFlagged();
-            cell.markUnflagged();
-            assertThat(cell.isUnflagged()).isTrue();
+        void pluralCell_markUncover_RecursionShouldHappen(){
+            Field gameField = new Field(2);
+            Position startPosition = new Position(1, 1);
+            Position sidePosition = new Position(0,1);
+            Position topPosition = new Position(1,0);
+            Cell startingCell = gameField.getCellAt(startPosition);
+            Cell sideCell = gameField.getCellAt(sidePosition);
+            Cell topCell = gameField.getCellAt(topPosition);
+
+            startingCell.markCovered();
+            sideCell.markCovered();
+            topCell.markCovered();
+
+            startingCell.markUncovered();
+
+            assertThat(startingCell.isUncovered()).isTrue();
+            assertThat(sideCell.isUncovered()).isTrue();
+            assertThat(topCell.isUncovered()).isTrue();
         }
     }
-    */
 
     @Nested
     class Bombtests{
-
-        @Test
-        @Disabled
-        void BombCount_threeBombsAroundCenterCell () {
-            //idfk>
-            //TODO: remove
-            Field field = new Field(10);
-            Position cellPosition = new Position(1, 1);
-            Cell cell = field.getCellAt(cellPosition);
-            initializePositions();
-            initializeCells();
-            markCellsAsBomb(new Position[]{
-                    new Position(0, 0),
-                    new Position(0, 1),
-                    new Position(0, 2)
-            });
-            assertThat(cell.bombCount()).isEqualTo(3);
-        }
-
         @Test
         void isBomb_singleMarkedBombCell(){
             Field field = new Field(10);

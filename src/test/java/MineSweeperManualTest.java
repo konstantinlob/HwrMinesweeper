@@ -11,29 +11,48 @@ class MineSweeperManualTest {
     private Cell[] cells;
     private Command command;
     private Referee referee;
-    private int fieldsize = 10;
+    private int fieldsize= 25;
     
     @Test 
     void PlayTest() {
-        field = new Field(fieldsize);
-        referee = new Referee(field);
-        initializePositions();
-        initializeCells();
-        field.placerandombombs(fieldsize);
+        boolean playAgain;
+        Scanner input = new Scanner(System.in);
 
-        out.println("\n\n =====Welcome to Minesweeper ! =====\n");
-        
         do {
-            gameRound();
-        }
-        while(!referee.checkWin(field) &&  !referee.checkLose(field));
+            out.println("\n\n ========Welcome to Minesweeper ! ========\n Das richtige Format zum aufdecken ist X Y. Probiere es noch mal!");
 
-        if(referee.checkWin(field)){
-            out.println("\n\n ===== WELL DONE YOU WON!!! =====\n");
-        }
-        if(referee.checkLose(field)){
-            out.println("\n\n ===== you lost loser =====\n");
-        }
+            field = new Field(fieldsize);
+            referee = new Referee(field);
+            initializePositions();
+            initializeCells();
+            field.placerandombombs(fieldsize);
+
+            do {
+                gameRound();
+            }
+            while (!referee.checkWin(field) && !referee.checkLose(field));
+
+            if (referee.checkWin(field)) {
+                out.println("\n\n ===== WELL DONE YOU WON!!! =====\n");
+            }
+            if (referee.checkLose(field)) {
+                out.println("\n\n ========= you lost loser =========\n");
+                try {
+                    String string = buildConsoleOutput();
+                    out.println(string);
+                    Thread.sleep(300);
+                } catch (InterruptedException i) {
+                    i.printStackTrace();
+                }
+            }
+            out.println("\n do you want to play again? if yes press 'y', if no then press a random key");
+            String command = input.nextLine();
+            if(command=="y"){
+                playAgain = true;
+            } else {
+                playAgain = false;
+            }
+        } while (playAgain == false);
     }
 
 
@@ -64,30 +83,37 @@ class MineSweeperManualTest {
 
     private String buildConsoleOutput() {
         StringBuilder builder = new StringBuilder();
-        builder.append("  ");
+        builder.append("   ");
         for (int i = 0; i < fieldsize; i++){
-            builder.append(i);
+            builder.append("|"+i);
+            if(i<10){builder.append(" ");}
         }
-        //builder.append('\n');
+        builder.append("|");
         for (int i = 0; i < cells.length; i++) {
                 boolean newRow = i % fieldsize == 0;
             if (newRow) {
-                builder.append("\n");
-                builder.append((i / fieldsize));
-                builder.append(" ");
+                builder.append("\n"+(i / fieldsize));
+                boolean rowOverNine = i > 9*fieldsize == true;
+                if(rowOverNine){
+                    builder.append(" ");
+                } else {
+                    builder.append("  ");
+                }
             }
+
             Cell cell = cells[i];
             boolean isCovered = cell.isCovered();
-
+            builder.append("|");
             if (isCovered){
-                    builder.append('?'); //Grey Field Unicode U+2800
+                    builder.append('?');
             }  else {
                 if (cell.isBomb()){
                     builder.append("X");
                 } else {
-                    builder.append(cell.bombCount()); //leerer unicode
+                    builder.append(cell.bombCount());
                 }
             }
+            builder.append(" ");
         }
         builder.append('\n');
         return builder.toString();

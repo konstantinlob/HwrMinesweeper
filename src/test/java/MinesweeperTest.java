@@ -216,27 +216,6 @@ class MinesweeperTest {
         }
 
         @Test
-        void IsBomb_checkUncover(){
-            Field field = new Field(10);
-            Position cellPosition = new Position(5, 5);
-            Cell cell = field.getCellAt(cellPosition);
-            cell.markCovered();
-            cell.markBomb();
-
-            assertThat(cell.checkUncover()).isFalse();
-        }
-
-        @Test
-        void IsntBomb_checkUncover(){
-            Field field = new Field(10);
-            Position cellPosition = new Position(5, 5);
-            Cell cell = field.getCellAt(cellPosition);
-            cell.markCovered();
-
-            assertThat(cell.checkUncover()).isTrue();
-        }
-
-        @Test
         void pluralCell_markUncover_diagonalUncoverShouldNotHappen(){
             Field gameField = new Field(2);
             Position startPosition = new Position(1, 1);

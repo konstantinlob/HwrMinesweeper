@@ -33,13 +33,7 @@ public class Cell {
         this.flagged = false;
     }
 */
-    public boolean checkUncover(){
-        if(!this.isBomb())
-            return true;
-        else
-            System.out.println("BOOM");
-            return false;
-    }
+
 
 
     public void markUncovered() {

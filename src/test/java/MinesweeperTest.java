@@ -10,8 +10,6 @@ class MinesweeperTest {
     private int fieldSize;
     private Command command;
     private Position[] positions;
-    private Cell[] cells;
-    private Field field;
 
     @Nested
     class CommandTests{
@@ -393,18 +391,6 @@ class MinesweeperTest {
 
             boolean neighbourIsNextToPosition = centerCell.isNextTo(neighbour);
             assertThat(neighbourIsNextToPosition).isFalse();
-        }
-    }
-
-
-    private void initializeCells() {
-        cells = new Cell[fieldSize * fieldSize];
-        int index = 0;
-        for (Position position : positions) {
-            Cell cell = field.getCellAt(position);
-            cells[index] = cell;
-            cell.markCovered();
-            index++;
         }
     }
 

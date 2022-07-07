@@ -9,6 +9,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MinesweeperTest {
     private int fieldSize;
     private Command command;
+    private Position[] positions;
+    private Cell[] cells;
+    private Field field;
 
     @Nested
     class CommandTests{
@@ -22,10 +25,30 @@ class MinesweeperTest {
         }
 
         @Test
+        void validCreateCommand_commandValidizer_commandProcessor(){
+            command = new Command("86 1");
+            boolean boo = command.validizeFieldDifficultyFieldSize();
+            command.processFieldDifficultyFieldSize();
+            fieldSize= command.getSize();
+            int difficulty= command.getDifficulty();
+            Assertions.assertThat(fieldSize).isEqualTo(86);
+            Assertions.assertThat(difficulty).isEqualTo(1);
+            Assertions.assertThat(boo).isTrue();
+        }
+
+        @Test
         void invalidCommand_commandValidizer(){
             fieldSize = 10;
             command = new Command("86");
             boolean boo = command.validizeUncover(fieldSize);
+
+            Assertions.assertThat(boo).isFalse();
+        }
+
+        @Test
+        void invalidCreateCommand_commandValidizer(){
+            command = new Command("100 4");
+            boolean boo = command.validizeFieldDifficultyFieldSize();
 
             Assertions.assertThat(boo).isFalse();
         }
@@ -302,9 +325,39 @@ class MinesweeperTest {
         }
 
         @Test
-         @Disabled
-        void randomBombPlacer(){
-            //TODO: make the random bomb tester
+        void randomBombPlacer_difficultyOne(){
+            int fieldSize=10;
+            Field field = new Field(fieldSize);
+            int difficulty = 1;
+            initializePositions();
+            initializePositions();
+            field.placerandombombs(10, difficulty);
+            int placedbombs = field.getPlacedBombs();
+            assertThat(placedbombs).isEqualTo(fieldSize*fieldSize/8);
+        }
+
+        @Test
+        void randomBombPlacer_difficultyTwo(){
+            int fieldSize=10;
+            Field field = new Field(fieldSize);
+            int difficulty = 2;
+            initializePositions();
+            initializePositions();
+            field.placerandombombs(10, difficulty);
+            int placedbombs = field.getPlacedBombs();
+            assertThat(placedbombs).isEqualTo(fieldSize*fieldSize/6);
+        }
+
+        @Test
+        void randomBombPlacer_difficultyThree(){
+            int fieldSize=10;
+            Field field = new Field(fieldSize);
+            int difficulty = 3;
+            initializePositions();
+            initializePositions();
+            field.placerandombombs(10, difficulty);
+            int placedbombs = field.getPlacedBombs();
+            assertThat(placedbombs).isEqualTo(fieldSize*fieldSize/3);
         }
     }
 
@@ -343,4 +396,27 @@ class MinesweeperTest {
         }
     }
 
+
+    private void initializeCells() {
+        cells = new Cell[fieldSize * fieldSize];
+        int index = 0;
+        for (Position position : positions) {
+            Cell cell = field.getCellAt(position);
+            cells[index] = cell;
+            cell.markCovered();
+            index++;
+        }
+    }
+
+    private void initializePositions() {
+        positions = new Position[fieldSize * fieldSize];
+        int index = 0;
+        for (int x = 0; x < fieldSize; x++) {
+            for (int y = 0; y < fieldSize; y++) {
+                Position p = new Position(x, y);
+                positions[index] = p;
+                index++;
+            }
+        }
+    }
 }

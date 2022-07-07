@@ -10,7 +10,7 @@ This repository contains a student project created for an ongoing lecture on obj
 [TODO]: # (Write a short description of your project.)
 A simple console based minesweeper game which takes commands (X Y)  to uncover cells on a field   
 
-mapsize(0-99) and the difficultly (low, medium, hard, custom)of the map are features of the program, which is to be used and played in the intellij terminal!
+mapsize(0-99) and the difficultly (1, 2, 3)of the map are the main extra features of the program, which is to be used and played in the intellij terminal!
 
 interesting problems which occurred during development:  
 - finding out how the uncovering algorithm works for minesweeper, which was solved relatively simply by uncovering the center cells, finding its non-diagonal 
@@ -23,7 +23,7 @@ neighbours, and if these are not a bomb or already uncovered, recursively use th
 | Number | Feature                                              | Tests |
 |--------|------------------------------------------------------|-------|
 | 1      | custom fieldsizes 0-99                               | yes   |
-| 2      | chooseable gamemode (leicht, mittel, schwer, custom) | yes   |
+| 2      | chooseable gamemode (leicht, mittel, schwer) | yes   |
 | 3      |                                                      | yes   |
 |        |                                                      |       |
 

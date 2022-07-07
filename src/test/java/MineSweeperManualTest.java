@@ -10,8 +10,10 @@ class MineSweeperManualTest {
     private Position[] positions;
     private Cell[] cells;
     private Command command;
+    private Command createCommand;
     private Referee referee;
-    private int fieldsize= 25;
+    private int fieldSize;
+    private int difficulty;
     
     @Test 
     void PlayTest() {
@@ -19,14 +21,27 @@ class MineSweeperManualTest {
         Scanner input = new Scanner(System.in);
 
         do {
-            out.println("\n\n ========Welcome to Minesweeper ! ========\n Das richtige Format zum aufdecken ist X Y. Probiere es noch mal!");
+            out.println("\n\n ========Welcome to Minesweeper ! ========\n um anzufangen die Feldgroesse(0-99) und den spielmodus (1-3) in dem format 'groesse schwierigkeit'eingeben.");
 
-            field = new Field(fieldsize);
+            String create;
+            Scanner createInput = new Scanner(System.in);
+
+            do {
+                create = createInput.nextLine();
+                out.println(create);
+                createCommand = new Command(create);
+            } while(!createCommand.validizeFieldDifficultyFieldSize());
+
+            createCommand.processFieldDifficultyFieldSize();
+            fieldSize =createCommand.getSize();
+            field = new Field(fieldSize);
+            difficulty = createCommand.getDifficulty();
             referee = new Referee(field);
             initializePositions();
             initializeCells();
-            field.placerandombombs(fieldsize);
+            field.placerandombombs(fieldSize, difficulty);
 
+            out.println("\n Das richtige Format zum aufdecken ist X Y. Probiere es noch mal!");
             do {
                 gameRound();
             }
@@ -72,7 +87,7 @@ class MineSweeperManualTest {
             com = input.nextLine();
         out.println(com);
             command = new Command(com);
-        } while(!command.validizeUncover(fieldsize));
+        } while(!command.validizeUncover(fieldSize));
 
         command.processUncover();
 
@@ -84,16 +99,16 @@ class MineSweeperManualTest {
     private String buildConsoleOutput() {
         StringBuilder builder = new StringBuilder();
         builder.append("   ");
-        for (int i = 0; i < fieldsize; i++){
+        for (int i = 0; i < fieldSize; i++){
             builder.append("|"+i);
             if(i<10){builder.append(" ");}
         }
 
         for (int i = 0; i < cells.length; i++) {
-                boolean newRow = i % fieldsize == 0;
+                boolean newRow = i % fieldSize == 0;
             if (newRow) {
-                builder.append("\n"+(i / fieldsize));
-                boolean rowOverNine = i > 9*fieldsize == true;
+                builder.append("\n"+(i / fieldSize));
+                boolean rowOverNine = i > 9* fieldSize == true;
                 if(rowOverNine){
                     builder.append(" ");
                 } else {
@@ -120,7 +135,7 @@ class MineSweeperManualTest {
     }
 
     private void initializeCells() {
-        cells = new Cell[fieldsize * fieldsize];
+        cells = new Cell[fieldSize * fieldSize];
         int index = 0;
         for (Position position : positions) {
             Cell cell = field.getCellAt(position);
@@ -131,10 +146,10 @@ class MineSweeperManualTest {
     }
 
     private void initializePositions() {
-        positions = new Position[fieldsize * fieldsize];
+        positions = new Position[fieldSize * fieldSize];
         int index = 0;
-        for (int x = 0; x < fieldsize; x++) {
-            for (int y = 0; y < fieldsize; y++) {
+        for (int x = 0; x < fieldSize; x++) {
+            for (int y = 0; y < fieldSize; y++) {
                 Position p = new Position(x, y);
                 positions[index] = p;
                 index++;
@@ -142,20 +157,4 @@ class MineSweeperManualTest {
         }
     }
 
-    @Test
-        //@Disabled("manual test")
-    void manualTest() throws InterruptedException {
-        field = new Field(fieldsize);
-        //game = new Game(field);
-        initializePositions();
-        initializeCells();
-        field.placerandombombs(fieldsize);
-        out.println("\n\n================Welcome to Minesweeper ! ================\n");
-        while(true) {
-            String string = buildConsoleOutput();
-            //game.proceed();
-            out.println(string);
-            Thread.sleep(3000);
-        }
-    }
 }

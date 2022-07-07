@@ -1,14 +1,13 @@
 public class Command {
 
     private final String command;
-    private Field field;
     private int x;
     private int y;
     public Command(String command) {
         this.command = command;
     }
 
-    public void process() {
+    public void processUncover() {
         String[] splitted = command.split(" ");
         x = Integer.parseInt(splitted[0]);
         y = Integer.parseInt(splitted[1]);
@@ -21,7 +20,7 @@ public class Command {
         return this.y;
     }
 
-    public boolean validize(int fieldsize) {
+    public boolean validizeUncover(int fieldsize) {
         if(command.matches("\\d*\s\\d*")){                    //Command muss dem Muster entsprechen damit wir dann splitten können an der Stelle
             String[] splitted = command.split(" ");           //splittet an dem Leerzeichen
             if(splitted[0].length() <= String.valueOf(fieldsize-1).length() && splitted[1].length() <= String.valueOf(fieldsize-1).length()){

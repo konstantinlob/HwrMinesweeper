@@ -6,7 +6,6 @@ public class Cell {
     private final Position position;
     private final Field field;
     private boolean bomb;
-    //private boolean flagged;
 
     public Cell(Position position, Field field) {
         this.position = position;
@@ -24,24 +23,15 @@ public class Cell {
     public void markCovered() {
         this.covered = true;
     }
-/*
-    public void markFlagged() {
-        this.flagged = true;
-    }
-
-    public void markUnflagged() {
-        this.flagged = false;
-    }
-*/
-
-
 
     public void markUncovered() {
     this.covered = false;
 
-        for ( Cell c : getNonDiagonalNeighbours()) {
-            if (!c.isBomb() && c.isCovered()) {
-                c.markUncovered();
+        if(isBomb()==false){
+            for ( Cell c : getNonDiagonalNeighbours()) {
+                if (!c.isBomb() && c.isCovered()) {
+                    c.markUncovered();
+                }
             }
         }
     }
@@ -73,13 +63,4 @@ public class Cell {
     }
 
     public boolean isUncovered() {return !this.covered;}
-/*
-    public boolean isFlagged() {
-        return this.flagged;
-    }
-
-    public boolean isUnflagged() {
-        return !this.flagged;
-    }
- */
 }

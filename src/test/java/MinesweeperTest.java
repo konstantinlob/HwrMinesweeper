@@ -7,41 +7,37 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MinesweeperTest {
-    private int fieldsize;
-    private Field field;
-    private Position[] positions;
-    private Cell[] cells;
+    private int fieldSize;
     private Command command;
-    private Referee referee;
 
     @Nested
     class CommandTests{
         @Test
         void validCommand_commandValidizer(){
-            fieldsize = 10;
+            fieldSize = 10;
             command = new Command("8 6");
-            boolean boo = command.validize(fieldsize);
+            boolean boo = command.validizeUncover(fieldSize);
 
             Assertions.assertThat(boo).isTrue();
         }
 
         @Test
         void invalidCommand_commandValidizer(){
-            fieldsize = 10;
+            fieldSize = 10;
             command = new Command("86");
-            boolean boo = command.validize(fieldsize);
+            boolean boo = command.validizeUncover(fieldSize);
 
             Assertions.assertThat(boo).isFalse();
         }
 
         @Test
-        void validCommand_proccessCommand(){
+        void validCommand_processCommand(){
             Field field = new Field(10);
             Position cellPosition = new Position(8,6);
             Cell cell = field.getCellAt(cellPosition);
             cell.markCovered();
             command = new Command("8 6");
-            command.process();
+            command.processUncover();
 
             Assertions.assertThat(command.getX()).isEqualTo(8);
             Assertions.assertThat(command.getY()).isEqualTo(6);
@@ -52,8 +48,8 @@ class MinesweeperTest {
     class RefereeTests{
         @Test
         void winningField_checkWin(){
-            fieldsize = 4;
-            Field gameField = new Field(fieldsize);
+            fieldSize = 4;
+            Field gameField = new Field(fieldSize);
             Referee referee = new Referee(gameField);
             Position bombPosition = new Position(2,2);
             Cell bombCell = gameField.getCellAt(bombPosition);
@@ -64,8 +60,8 @@ class MinesweeperTest {
         }
         @Test
         void nonWinningField_checkWin(){
-            fieldsize = 4;
-            Field gameField = new Field(fieldsize);
+            fieldSize = 4;
+            Field gameField = new Field(fieldSize);
             Referee referee = new Referee(gameField);
             Position bombPosition = new Position(2,2);
             Position nonBombPosition = new Position(3, 2);
@@ -81,8 +77,8 @@ class MinesweeperTest {
 
         @Test
         void nonWinningField_withUncoveredBomb_checkWin(){ //sonst kann ein field gewinnen wenn es nur eine uncovered bomb hat und nichts anderes
-            fieldsize = 4;
-            Field gameField = new Field(fieldsize);
+            fieldSize = 4;
+            Field gameField = new Field(fieldSize);
             Referee referee = new Referee(gameField);
             Position bombPosition = new Position(2,2);
             Cell bombCell = gameField.getCellAt(bombPosition);
@@ -95,8 +91,8 @@ class MinesweeperTest {
 
         @Test
         void losingField_checkLose(){
-            fieldsize = 4;
-            Field gameField = new Field(fieldsize);
+            fieldSize = 4;
+            Field gameField = new Field(fieldSize);
             Referee referee = new Referee(gameField);
             Position bombPosition = new Position(2,2);
             Cell bombCell = gameField.getCellAt(bombPosition);
@@ -108,23 +104,23 @@ class MinesweeperTest {
 
         @Test
         void nonLosingField_checkLose(){
-            fieldsize = 4;
-            Field gameField = new Field(fieldsize);
+            fieldSize = 4;
+            Field gameField = new Field(fieldSize);
             Referee referee = new Referee(gameField);
             Position bombPosition = new Position(2,2);
             Cell bombCell = gameField.getCellAt(bombPosition);
             bombCell.markBomb();
             bombCell.markCovered();
-            boolean gamelose = referee.checkLose(gameField);
+            boolean gameLose = referee.checkLose(gameField);
 
-            Assertions.assertThat(gamelose).isFalse();
+            Assertions.assertThat(gameLose).isFalse();
         }
     }
 
     @Nested
-    class NeigbourTests {
+    class NeighbourTests {
         @Test
-        void getneighbours_AllNeighbourPositionsAreNextToPosition() {
+        void getNeighbours_AllNeighbourPositionsAreNextToPosition() {
             // given
             Position cellPosition = new Position(5, 5);
             Position[] neighbours = new Position[8];
@@ -255,7 +251,7 @@ class MinesweeperTest {
     }
 
     @Nested
-    class Bombtests{
+    class BombTests{
         @Test
         void isBomb_singleMarkedBombCell(){
             Field field = new Field(10);
@@ -315,7 +311,7 @@ class MinesweeperTest {
     @Nested
     class PositionTests {
         @Test
-        void IsNextToPosition_PositionIsNextToposition (){
+        void IsNextToPosition_PositionIsNextToPosition (){
             Position cellPosition = new Position(1, 1);
             Position[] neighbours = new Position[8];
             int index = 0;
@@ -338,43 +334,12 @@ class MinesweeperTest {
         }
 
         @Test
-        void IsNextToPosition_PositionIsntNextToposition (){
+        void IsNextToPosition_PositionIsntNextToPosition (){
             Position centerCell = new Position(1, 1);
             Position neighbour = new Position(3, 3);
 
             boolean neighbourIsNextToPosition = centerCell.isNextTo(neighbour);
             assertThat(neighbourIsNextToPosition).isFalse();
-        }
-    }
-
-    private void markCellsAsBomb(Position[] positions) {
-        for (Position position : positions) {
-            Cell cell = field.getCellAt(position);
-            cell.markBomb();
-        }
-
-    }
-
-    private void initializeCells() {
-        cells = new Cell[fieldsize * fieldsize];
-        int index = 0;
-        for (Position position : positions) {
-            Cell cell = field.getCellAt(position);
-            cells[index] = cell;
-            cell.markCovered();
-            index++;
-        }
-    }
-
-    private void initializePositions() {
-        positions = new Position[fieldsize * fieldsize];
-        int index = 0;
-        for (int x = 0; x < fieldsize; x++) {
-            for (int y = 0; y < fieldsize; y++) {
-                Position p = new Position(x, y);
-                positions[index] = p;
-                index++;
-            }
         }
     }
 

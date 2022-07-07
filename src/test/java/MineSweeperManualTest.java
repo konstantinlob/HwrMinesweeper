@@ -72,9 +72,9 @@ class MineSweeperManualTest {
             com = input.nextLine();
         out.println(com);
             command = new Command(com);
-        } while(!command.validize(fieldsize));
+        } while(!command.validizeUncover(fieldsize));
 
-        command.process();
+        command.processUncover();
 
         Position cellPosition = new Position(command.getY(),command.getX());
         Cell cell = field.getCellAt(cellPosition);
@@ -88,7 +88,7 @@ class MineSweeperManualTest {
             builder.append("|"+i);
             if(i<10){builder.append(" ");}
         }
-        builder.append("|");
+
         for (int i = 0; i < cells.length; i++) {
                 boolean newRow = i % fieldsize == 0;
             if (newRow) {

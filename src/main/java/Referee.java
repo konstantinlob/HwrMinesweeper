@@ -2,9 +2,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class Referee {
-    public boolean checkLose;
     private Field field;
-    private Cell cell;
 
     public Referee(Field field) {
         this.field = field;

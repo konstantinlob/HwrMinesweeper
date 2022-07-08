@@ -20,12 +20,10 @@ neighbours, and if these are not a bomb or already uncovered, recursively use th
 
 [TODO]: # (For each feature implemented, add a row to the table!)
 
-| Number | Feature                                              | Tests |
-|--------|------------------------------------------------------|-------|
-| 1      | custom fieldsizes 0-99                               | yes   |
-| 2      | chooseable gamemode (leicht, mittel, schwer) | yes   |
-| 3      |                                                      | yes   |
-|        |                                                      |       |
+| Number | Feature                                         | Tests |
+|-----|-------------------------------------------------|-------|
+| 1   | custom fieldsizes 0-99                          | yes   |
+| 2   | chooseable gamemode (leicht, mittel, schwer)    | yes   |
 
 
 ## Additional Dependencies
